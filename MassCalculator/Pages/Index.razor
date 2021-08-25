@@ -1,0 +1,86 @@
+﻿@page "/"
+
+@using MassCalculator.Data
+
+@inject MassConverterService massConverterService
+
+<h1>Mass calculator for mass spectrometry</h1>
+
+<p>
+    Enter neutral monoisotopic mass:
+    <input type="text" @bind="CompoundMass" style="margin-bottom: 15px" />
+</p>
+
+@if (compound == null)
+{
+    <p><em>Enter a mass to calculate charge state and isotope masses</em></p>
+}
+else
+{
+    <h4>Positive ionisation</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Charge state</th>
+                <th>Monoisotopic mass</th>
+                @for (var n = 1; n < compound.IsotopeCount; n++)
+                {
+                    <th>@($"Isotope {n}")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chargeState in compound.ChargeStates)
+            {
+                <tr>
+                    <td>@chargeState.Charge</td>
+                    @foreach (var isotope in chargeState.Isotopes)
+                    {
+                        <td>@isotope.MassOverCharge</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Negative ionisation</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Charge state</th>
+                <th>Monoisotopic mass</th>
+                @for (var n = 1; n < compound.IsotopeCount; n++)
+                {
+                    <th>@($"Isotope {n}")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chargeState in compound.NegativeChargeStates)
+            {
+                <tr>
+                    <td>@chargeState.Charge</td>
+                    @foreach (var isotope in chargeState.Isotopes)
+                    {
+                        <td>@isotope.MassOverCharge</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Compound compound;
+
+    private double compoundMass;
+    private double CompoundMass
+    {
+        get => compoundMass;
+        set
+        {
+            compoundMass = value;
+            compound = massConverterService.GenerateCompoundDetails(compoundMass).Result;
+        }
+    }
+}
