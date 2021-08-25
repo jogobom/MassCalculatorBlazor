@@ -4,7 +4,18 @@
 
 @inject MassConverterService massConverterService
 
-<h1>Mass calculator for mass spectrometry</h1>
+<h1>Mass  calculator for mass spectrometry</h1>
+
+<h4>Mass error</h4>
+<p style="margin-bottom: 15px" >
+    If expected mass is 
+    <input type="text" @bind="ExpectedMass" style="margin-bottom: 15px" />
+    but observed mass is
+    <input type="text" @bind="ObservedMass" style="margin-bottom: 15px" />
+    then the mass error is @MassErrorPpm ppm
+</p>
+
+<h4>Calculate masses for charge states and isotopes</h4>
 
 <p>
     Enter neutral monoisotopic mass:
@@ -13,7 +24,7 @@
 
 @if (compound == null)
 {
-    <p><em>Enter a mass to calculate charge state and isotope masses</em></p>
+    <p><em>Enter a mass to calculate all the charge states/isotopes</em></p>
 }
 else
 {
@@ -83,4 +94,9 @@ else
             compound = massConverterService.GenerateCompoundDetails(compoundMass).Result;
         }
     }
+
+    private double ExpectedMass { get; set; }
+    private double ObservedMass { get; set; }
+
+    private double MassErrorPpm => (ObservedMass - ExpectedMass) / ExpectedMass * 1e6;
 }
