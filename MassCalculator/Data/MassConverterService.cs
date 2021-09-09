@@ -33,27 +33,27 @@ namespace MassCalculator.Data
             {
                 NeutralMonoisotopicMass = neutralMonoisotopicMass,
                 ChargeStates = chargeStatesToBuild
-                    .Select(z => BuildChargeState(neutralMonoisotopicMass, z))
+                    .Select(z => BuildTheoreticalChargeState(neutralMonoisotopicMass, z))
                     .ToList(),
                 NegativeChargeStates = chargeStatesToBuild
-                    .Select(z => BuildChargeState(neutralMonoisotopicMass, -z))
+                    .Select(z => BuildTheoreticalChargeState(neutralMonoisotopicMass, -z))
                     .ToList()
             });
         }
 
-        private ChargeState BuildChargeState(double neutralMonoisotopicMass, int z)
+        private ChargeState BuildTheoreticalChargeState(double neutralMonoisotopicMass, int z)
         {
             var isotopesToBuild = Enumerable.Range(0, 10);
             return new ChargeState
             {
                 Charge = z,
-                Isotopes = isotopesToBuild.Select(a => BuildIsotope(neutralMonoisotopicMass, z, a)).ToList()
+                Isotopes = isotopesToBuild.Select(a => BuildTheoreticalIsotope(neutralMonoisotopicMass, z, a)).ToList()
             };
         }
 
-        private Isotope BuildIsotope(double neutralMonoisotopicMass, int z, int a)
+        private TheoreticalIsotope BuildTheoreticalIsotope(double neutralMonoisotopicMass, int z, int a)
         {
-            return new Isotope
+            return new TheoreticalIsotope
             {
                 MassOverCharge = CalculateMassOverCharge(neutralMonoisotopicMass, z, a)
             };
