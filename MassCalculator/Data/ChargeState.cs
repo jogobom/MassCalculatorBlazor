@@ -6,6 +6,6 @@ namespace MassCalculator.Data
     {
         public int Charge { get; set; }
         public double MonoisotopicMassOverCharge { get; set; }
-        public List<TheoreticalIsotope> Isotopes { get; set; }
+        public List<PredictedIsotopeAtCharge> Isotopes { get; init; } = new();
     }
 }

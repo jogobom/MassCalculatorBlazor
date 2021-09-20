@@ -1,43 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using CsvHelper;
+using System.Text.Json;
 
 namespace MassCalculator.Data
 {
     public class ElementDatabase
     {
-        private readonly Dictionary<string,List<ElementIsotope>> knownIsotopes = new();
+        private readonly Dictionary<ElementSymbol,Element> knownElements = new();
+        private readonly Random random;
 
-        public ElementDatabase(IEnumerable<ElementIsotope> isotopes)
+        public ElementDatabase(IEnumerable<Element> elements)
         {
-            foreach (var isotope in isotopes)
+            random = new Random();
+
+            foreach (var element in elements)
             {
-                if (knownIsotopes.ContainsKey(isotope.Symbol))
-                {
-                    knownIsotopes[isotope.Symbol].Add(isotope);
-                }
-                else
-                {
-                    knownIsotopes.Add(isotope.Symbol, new List<ElementIsotope>{isotope});
-                }
+                knownElements[element.Symbol] = element;
             }
         }
 
         public static ElementDatabase LoadFromFile(string path)
         {
-            using var reader = new StreamReader(path);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            return new ElementDatabase(csv.GetRecords<ElementIsotope>());
+            var jsonFileContent = File.ReadAllText(path);
+            var elementsFromJson = JsonSerializer.Deserialize<List<Element>>(jsonFileContent);
+            return new ElementDatabase(elementsFromJson ?? Enumerable.Empty<Element>());
         }
 
-        public double GetAverageMass(string symbol)
+        public double GetAverageMass(ElementSymbol symbol)
         {
-            return knownIsotopes.ContainsKey(symbol)
-                ? knownIsotopes[symbol].Sum(i => i.Proportion * i.Mass)
+            return knownElements.ContainsKey(symbol)
+                ? knownElements[symbol].Isotopes.Sum(i => i.Proportion * i.Mass)
                 : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
+        }
+
+        public ElementIsotope DrawRandomIsotope(ElementSymbol symbol)
+        {
+            if (!knownElements.ContainsKey(symbol))
+            {
+                throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
+            }
+
+            var element = knownElements[symbol];
+            var randomPercentage = random.NextDouble();
+            var totalProportionSoFar = 0.0;
+
+            foreach (var isotope in element.Isotopes)
+            {
+                totalProportionSoFar += isotope.Proportion;
+                if (randomPercentage <= totalProportionSoFar)
+                    return isotope;
+            }
+
+            throw new ApplicationException($"Somehow managed to run out of isotopes before random percentage was met, check that the proportions for all elements sum to 1.0");
         }
     }
 }

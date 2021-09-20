@@ -1,0 +1,341 @@
+[
+    {
+        "Symbol": "C",
+        "Name": "Carbon",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 12,
+                "Mass": 12,
+                "Proportion": 0.9893
+            },
+            {
+                "Nucleons": 13,
+                "Mass": 13.00335483521,
+                "Proportion": 0.0107
+            }
+        ]
+    },
+    {
+        "Symbol": "H",
+        "Name": "Hydrogen",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 1,
+                "Mass": 1.007825031898,
+                "Proportion": 0.99972
+            },
+            {
+                "Nucleons": 2,
+                "Mass": 2.014101777844,
+                "Proportion": 0.00028
+            }
+        ]
+    },
+    {
+        "Symbol": "N",
+        "Name": "Nitrogen",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 14,
+                "Mass": 14.00307400446,
+                "Proportion": 0.99636
+            },
+            {
+                "Nucleons": 15,
+                "Mass": 15.0001088989,
+                "Proportion": 0.00364
+            }
+        ]
+    },
+    {
+        "Symbol": "O",
+        "Name": "Oxygen",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 16,
+                "Mass": 15.9949146196,
+                "Proportion": 0.99757
+            },
+            {
+                "Nucleons": 17,
+                "Mass": 16.9991317566,
+                "Proportion": 0.00038
+            },
+            {
+                "Nucleons": 18,
+                "Mass": 17.9991596128,
+                "Proportion": 0.00205
+            }
+        ]
+    },
+    {
+        "Symbol": "S",
+        "Name": "Sulphur",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 32,
+                "Mass": 31.9720711744,
+                "Proportion": 0.9499
+            },
+            {
+                "Nucleons": 33,
+                "Mass": 32.9714589099,
+                "Proportion": 0.0075
+            },
+            {
+                "Nucleons": 34,
+                "Mass": 33.96786701,
+                "Proportion": 0.0425
+            },
+            {
+                "Nucleons": 36,
+                "Mass": 35.9670807,
+                "Proportion": 0.0001
+            }
+        ]
+    },
+    {
+        "Symbol": "P",
+        "Name": "Phosphorus",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 31,
+                "Mass": 30.9737619986,
+                "Proportion": 1
+            }
+        ]
+    },
+    {
+        "Symbol": "Na",
+        "Name": "Sodium",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 23,
+                "Mass": 22.989769282,
+                "Proportion": 1
+            }
+        ]
+    },
+    {
+        "Symbol": "Mg",
+        "Name": "Magnesium",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 24,
+                "Mass": 23.985041697,
+                "Proportion": 0.7899
+            },
+            {
+                "Nucleons": 25,
+                "Mass": 24.98583696,
+                "Proportion": 0.1
+            },
+            {
+                "Nucleons": 26,
+                "Mass": 25.98259297,
+                "Proportion": 0.1101
+            }
+        ]
+    },
+    {
+        "Symbol": "F",
+        "Name": "Flourine",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 19,
+                "Mass": 18.9984031629,
+                "Proportion": 1
+            }
+        ]
+    },
+    {
+        "Symbol": "K",
+        "Name": "Potassium",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 39,
+                "Mass": 38.963706487,
+                "Proportion": 0.932581
+            },
+            {
+                "Nucleons": 40,
+                "Mass": 39.96399817,
+                "Proportion": 0.000117
+            },
+            {
+                "Nucleons": 41,
+                "Mass": 40.961825258,
+                "Proportion": 0.067302
+            }
+        ]
+    },
+    {
+        "Symbol": "Ca",
+        "Name": "Calcium",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 40,
+                "Mass": 39.962590866,
+                "Proportion": 0.96941
+            },
+            {
+                "Nucleons": 42,
+                "Mass": 41.95861783,
+                "Proportion": 0.00647
+            },
+            {
+                "Nucleons": 43,
+                "Mass": 42.95876643,
+                "Proportion": 0.00135
+            },
+            {
+                "Nucleons": 44,
+                "Mass": 43.9554815,
+                "Proportion": 0.02086
+            },
+            {
+                "Nucleons": 46,
+                "Mass": 45.953688,
+                "Proportion": 0.00004
+            },
+            {
+                "Nucleons": 48,
+                "Mass": 47.9525229,
+                "Proportion": 0.00187
+            }
+        ]
+    },
+    {
+        "Symbol": "Mn",
+        "Name": "Manganese",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 55,
+                "Mass": 54.9380451,
+                "Proportion": 1
+            }
+        ]
+    },
+    {
+        "Symbol": "Fe",
+        "Name": "Iron",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 54,
+                "Mass": 53.939609,
+                "Proportion": 0.05845
+            },
+            {
+                "Nucleons": 56,
+                "Mass": 55.9349363,
+                "Proportion": 0.91754
+            },
+            {
+                "Nucleons": 57,
+                "Mass": 56.9353928,
+                "Proportion": 0.02119
+            },
+            {
+                "Nucleons": 58,
+                "Mass": 57.9332744,
+                "Proportion": 0.00282
+            }
+        ]
+    },
+    {
+        "Symbol": "Zn",
+        "Name": "Zinc",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 64,
+                "Mass": 63.9291422,
+                "Proportion": 0.4917
+            },
+            {
+                "Nucleons": 66,
+                "Mass": 65.9260334,
+                "Proportion": 0.2773
+            },
+            {
+                "Nucleons": 67,
+                "Mass": 66.9271273,
+                "Proportion": 0.0404
+            },
+            {
+                "Nucleons": 68,
+                "Mass": 67.9248442,
+                "Proportion": 0.1845
+            },
+            {
+                "Nucleons": 70,
+                "Mass": 69.9253193,
+                "Proportion": 0.0061
+            },
+            {
+                "Nucleons": 48,
+                "Mass": 47.9525229,
+                "Proportion": 0.00187
+            }
+        ]
+    },
+    {
+        "Symbol": "I",
+        "Name": "Iodine",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 127,
+                "Mass": 126.904473,
+                "Proportion": 1
+            }
+        ]
+    },
+    {
+        "Symbol": "Cl",
+        "Name": "Chlorine",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 35,
+                "Mass": 34.96885269,
+                "Proportion": 0.7576
+            },
+            {
+                "Nucleons": 37,
+                "Mass": 36.96590258,
+                "Proportion": 0.2424
+            }
+        ]
+    },
+    {
+        "Symbol": "Br",
+        "Name": "Bromine",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 79,
+                "Mass": 78.9183371,
+                "Proportion": 0.5069
+            },
+            {
+                "Nucleons": 81,
+                "Mass": 80.9162906,
+                "Proportion": 0.4931
+            }
+        ]
+    }
+]

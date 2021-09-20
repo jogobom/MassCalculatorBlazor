@@ -1,6 +1,6 @@
 namespace MassCalculator.Data
 {
-    public class TheoreticalIsotope
+    public class PredictedIsotopeAtCharge
     {
         public double MassOverCharge { get; set; }
     }

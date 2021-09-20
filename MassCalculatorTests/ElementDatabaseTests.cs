@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using MassCalculator.Data;
-using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace MassCalculatorTests
@@ -11,9 +11,9 @@ namespace MassCalculatorTests
         [Fact]
         public void AverageMass_WhenElementIsNotKnown_ShouldThrow()
         {
-            var database = new ElementDatabase(new []{new ElementIsotope{Mass = 5, Symbol = "X"}});
+            var database = new ElementDatabase(new []{Element.MakeElement("X", "X", Enumerable.Empty<ElementIsotope>())});
 
-            var act = new Func<double>(() => database.GetAverageMass("A"));
+            var act = new Func<double>(() => database.GetAverageMass(new ElementSymbol("A")));
 
             act.Should().Throw<ApplicationException>();
         }
@@ -21,9 +21,9 @@ namespace MassCalculatorTests
         [Fact]
         public void AverageMassOfElementWithOneIsotope_ShouldBe_TheMassOfTheIsotope()
         {
-            var database = new ElementDatabase(new []{new ElementIsotope{Mass = 5, Symbol = "X", Proportion = 1}});
+            var database = new ElementDatabase(new []{Element.MakeElement("X", "X", new[]{new ElementIsotope{Mass = 5, Proportion = 1}})});
 
-            database.GetAverageMass("X").Should().Be(5);
+            database.GetAverageMass(new ElementSymbol("X")).Should().Be(5);
         }
 
         [Fact]
@@ -31,11 +31,10 @@ namespace MassCalculatorTests
         {
             var database = new ElementDatabase(new []
             {
-                new ElementIsotope{Mass = 5, Symbol = "X", Proportion = 0.5},
-                new ElementIsotope{Mass = 10, Symbol = "X", Proportion = 0.5}
+                ElementBuilder.MakeElementWithIsotopes("X", 5, 10)
             });
 
-            database.GetAverageMass("X").Should().Be(7.5);
+            database.GetAverageMass(new ElementSymbol("X")).Should().Be(7.5);
         }
     }
 }
