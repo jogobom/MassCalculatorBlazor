@@ -7,16 +7,15 @@ namespace MassCalculator.Data
     {
         public struct Ingredient
         {
-            public int quantity;
-            public ElementSymbol element;
+            public int Quantity;
+            public string ElementSymbol;
         }
 
-        public List<Ingredient> Ingredients { get; init; } = new();
+        public List<Ingredient> Ingredients { get; private init; } = new();
 
-        public static Composition FromElements(params (int quantity, string element)[] elements)
+        public static Composition FromFormula(string formula)
         {
-            return new Composition { Ingredients = elements.Select(e =>
-                new Ingredient{quantity = e.quantity, element = new ElementSymbol(e.element)}).ToList() };
+            return new Composition { Ingredients = FormulaParser.Parse(formula).ToList() };
         }
     }
 }

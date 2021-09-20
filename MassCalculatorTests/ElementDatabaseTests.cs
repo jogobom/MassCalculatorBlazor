@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using MassCalculator.Data;
@@ -11,9 +12,9 @@ namespace MassCalculatorTests
         [Fact]
         public void AverageMass_WhenElementIsNotKnown_ShouldThrow()
         {
-            var database = new ElementDatabase(new []{Element.MakeElement("X", "X", Enumerable.Empty<ElementIsotope>())});
+            var database = new ElementDatabase(new []{new Element("X", "X", new List<ElementIsotope>())});
 
-            var act = new Func<double>(() => database.GetAverageMass(new ElementSymbol("A")));
+            var act = new Func<double>(() => database.GetAverageMass("A"));
 
             act.Should().Throw<ApplicationException>();
         }
@@ -21,9 +22,15 @@ namespace MassCalculatorTests
         [Fact]
         public void AverageMassOfElementWithOneIsotope_ShouldBe_TheMassOfTheIsotope()
         {
-            var database = new ElementDatabase(new []{Element.MakeElement("X", "X", new[]{new ElementIsotope{Mass = 5, Proportion = 1}})});
+            var database = new ElementDatabase(new []
+            {
+                new Element("X", "X", new List<ElementIsotope>
+                {
+                    new() {Mass = 5, Proportion = 1}
+                })
+            });
 
-            database.GetAverageMass(new ElementSymbol("X")).Should().Be(5);
+            database.GetAverageMass("X").Should().Be(5);
         }
 
         [Fact]
@@ -34,7 +41,7 @@ namespace MassCalculatorTests
                 ElementBuilder.MakeElementWithIsotopes("X", 5, 10)
             });
 
-            database.GetAverageMass(new ElementSymbol("X")).Should().Be(7.5);
+            database.GetAverageMass("X").Should().Be(7.5);
         }
     }
 }

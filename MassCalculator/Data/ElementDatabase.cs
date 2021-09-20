@@ -8,7 +8,7 @@ namespace MassCalculator.Data
 {
     public class ElementDatabase
     {
-        private readonly Dictionary<ElementSymbol,Element> knownElements = new();
+        private readonly Dictionary<string,Element> knownElements = new();
         private readonly Random random;
 
         public ElementDatabase(IEnumerable<Element> elements)
@@ -28,14 +28,14 @@ namespace MassCalculator.Data
             return new ElementDatabase(elementsFromJson ?? Enumerable.Empty<Element>());
         }
 
-        public double GetAverageMass(ElementSymbol symbol)
+        public double GetAverageMass(string symbol)
         {
             return knownElements.ContainsKey(symbol)
                 ? knownElements[symbol].Isotopes.Sum(i => i.Proportion * i.Mass)
                 : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
         }
 
-        public ElementIsotope DrawRandomIsotope(ElementSymbol symbol)
+        public ElementIsotope DrawRandomIsotope(string symbol)
         {
             if (!knownElements.ContainsKey(symbol))
             {

@@ -8,8 +8,7 @@ namespace MassCalculatorTests
         public static Element MakeElementWithIsotopes(string symbol, params double[] masses)
         {
             var isotopeProportion = 1.0 / masses.Length;
-            return Element.MakeElement(symbol, symbol,
-                masses.Select(m => new ElementIsotope { Mass = m, Proportion = isotopeProportion }));
+            return new Element(symbol, symbol, masses.Select(m => new ElementIsotope { Mass = m, Proportion = isotopeProportion }).ToList());
         }
     }
 }

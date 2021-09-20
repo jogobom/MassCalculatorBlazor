@@ -9,7 +9,7 @@ namespace MassCalculatorTests
         [Fact]
         public void PredictsOneIsotopeForSingleMonoisotopicElement()
         {
-            var composition = Composition.FromElements((1, "A"));
+            var composition = Composition.FromFormula("A1");
 
             var database = new ElementDatabase(new []
             {
@@ -26,7 +26,7 @@ namespace MassCalculatorTests
         [Fact]
         public void PredictsTwoIsotopesForSingleElementThatHasTwoIsotopes()
         {
-            var composition = Composition.FromElements((1, "A"));
+            var composition = Composition.FromFormula("A1");
 
             var database = new ElementDatabase(new []
             {
@@ -44,7 +44,7 @@ namespace MassCalculatorTests
         [Fact]
         public void PredictsFourIsotopesForTwoElementsThatHaveTwoIsotopes()
         {
-            var composition = Composition.FromElements((1, "A"), (1, "B"));
+            var composition = Composition.FromFormula("A1B1");
 
             var database = new ElementDatabase(new []
             {
@@ -65,7 +65,7 @@ namespace MassCalculatorTests
         [Fact]
         public void PredictsThreeIsotopesForTwoElementsThatHaveTwoIsotopesWithSameMass()
         {
-            var composition = Composition.FromElements((1, "A"), (1, "B"));
+            var composition = Composition.FromFormula("A1B1");
 
             var database = new ElementDatabase(new []
             {
