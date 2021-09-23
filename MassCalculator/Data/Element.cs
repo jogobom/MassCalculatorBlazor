@@ -7,7 +7,7 @@ namespace MassCalculator.Data
     {
         public Element(string symbol, string name, List<ElementIsotope> isotopes)
         {
-            Symbol = symbol.ToUpper();
+            Symbol = symbol;
             Name = name;
             Isotopes = isotopes.ToList();
         }

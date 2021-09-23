@@ -11,9 +11,19 @@ namespace MassCalculatorTests
         {
             FormulaParser.Parse("C12H24O16").Should().BeEquivalentTo(new[]
             {
-                new Composition.Ingredient { ElementSymbol = "C", Quantity = 12 },
-                new Composition.Ingredient { ElementSymbol = "H", Quantity = 24 },
-                new Composition.Ingredient { ElementSymbol = "O", Quantity = 16 },
+                new Composition.Ingredient("C", 12 ),
+                new Composition.Ingredient("H", 24),
+                new Composition.Ingredient("O", 16 ),
+            });
+        }
+
+        [Fact]
+        public void ShouldParseCH()
+        {
+            FormulaParser.Parse("CH").Should().BeEquivalentTo(new[]
+            {
+                new Composition.Ingredient("C", 1 ),
+                new Composition.Ingredient("H", 1),
             });
         }
     }
