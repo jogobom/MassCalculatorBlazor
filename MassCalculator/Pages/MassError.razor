@@ -1,0 +1,21 @@
+﻿@page "/MassError"
+
+@using MassCalculator.Data
+
+@inject MassConverterService massConverterService
+
+<h4>Mass error</h4>
+<p style="margin-bottom: 15px" >
+    If expected mass is 
+    <input type="text" @bind="ExpectedMass" style="margin-bottom: 15px" />
+    but observed mass is
+    <input type="text" @bind="ObservedMass" style="margin-bottom: 15px" />
+    then the mass error is @MassErrorPpm ppm
+</p>
+
+@code {
+    private double ExpectedMass { get; set; }
+    private double ObservedMass { get; set; }
+
+    private double MassErrorPpm => (ObservedMass - ExpectedMass) / ExpectedMass * 1e6;
+}
