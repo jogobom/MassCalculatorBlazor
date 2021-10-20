@@ -1,0 +1,107 @@
+﻿@page "/Formulae"
+
+@using MassCalculator.Data
+@using OxyPlot
+@using OxyPlot.Axes
+@using OxyPlot.Blazor
+@using OxyPlot.Series
+
+
+@inject MassConverterService massConverterService
+
+<h4>Isotope pattern prediction</h4>
+
+<p>
+    Enter chemical composition:
+    <input type="text" @bind="Formula" style="margin-bottom: 15px" />
+</p>
+
+@if (composition == null)
+{
+<p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
+}
+else if (!composition.Ingredients.Any())
+{
+<p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
+    // Parse the string and look for any letters that don't match the chemical symbols we have in our database
+}
+else
+{
+<h4>@($"Predicted pattern for {composition}")</h4>
+<BlazorPlotView Width="800px" Height="500px" Model="PlotViewModel" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mass</th>
+            <th>Estimated Proportion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var isotope in predictedIsotopes)
+        {
+        <tr>
+            <td>@isotope.X</td>
+            <td>@isotope.Y</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code {
+    PlotModel PlotViewModel { get; } = SetUpPlotModel();
+
+    private Composition? composition;
+
+    private string formula = string.Empty;
+    private readonly IsotopePatternCalculator isotopePatternCalculator = new IsotopePatternCalculator(ElementDatabase.LoadFromFile("Data/ElementDatabase.json"));
+    private IEnumerable<DataPoint> predictedIsotopes = new List<DataPoint>();
+
+    private string Formula
+    {
+        get => formula;
+        set
+        {
+            formula = value;
+            composition = Composition.FromFormula(formula);
+
+            predictedIsotopes = composition != null && composition.Ingredients.Any()
+                ? isotopePatternCalculator.PredictIsotopesFromCompositionAsParallel(composition).Select(i => new DataPoint(i.Mass, i.Intensity))
+                : new List<DataPoint>();
+
+            UpdatePlot();
+        }
+    }
+
+    private static PlotModel SetUpPlotModel()
+    {
+        var xAxis = new LinearAxis { Position = AxisPosition.Bottom, Title = "Mass" };
+        var yAxis = new LinearAxis { Position = AxisPosition.Left, Title = "Intensity", AbsoluteMinimum = 0, AbsoluteMaximum = 1};
+
+        var result = new PlotModel { LegendPosition = LegendPosition.TopRight };
+        result.Axes.Add(xAxis);
+        result.Axes.Add(yAxis);
+
+        return result;
+    }
+
+    private void UpdatePlot()
+    {
+        if (PlotViewModel.Series.Count > 0)
+        {
+            PlotViewModel.Series.Clear();
+        }
+
+        var rawDataSeries = new StemSeries
+        {
+            ItemsSource = predictedIsotopes,
+            StrokeThickness = 1,
+            Color = OxyColor.FromRgb(15, 32, 128),
+        };
+
+        PlotViewModel.Series.Add(rawDataSeries);
+
+        PlotViewModel.InvalidatePlot(true);
+        PlotViewModel.ResetAllAxes();
+    }
+}

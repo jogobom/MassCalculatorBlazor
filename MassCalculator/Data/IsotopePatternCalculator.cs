@@ -21,7 +21,7 @@ namespace MassCalculator.Data
             // In reality, we'll do n random sequences and combine them - the bigger n, the closer we'll get to the true distribution (law of large numbers)
             // We could do each in parallel, if we had infinity "threads" because each sequence is independent
             // Monte Carlo!
-            return Enumerable.Range(0, NumberOfRandomPatternsToGenerate).Select(_ => PredictRandomIsotopicPeak(composition)).Distinct().OrderBy(p => p.Mass).ToList();
+            return BinPredictions(Enumerable.Range(0, NumberOfRandomPatternsToGenerate).Select(_ => PredictRandomIsotopicPeak(composition)).OrderBy(p => p.Mass).ToList());
         }
 
         public IList<PredictedIsotope> PredictIsotopesFromCompositionAsParallel(Composition composition)
@@ -31,7 +31,20 @@ namespace MassCalculator.Data
             // In reality, we'll do n random sequences and combine them - the bigger n, the closer we'll get to the true distribution (law of large numbers)
             // We could do each in parallel, if we had infinity "threads" because each sequence is independent
             // Monte Carlo!
-            return Enumerable.Range(0, NumberOfRandomPatternsToGenerate).AsParallel().Select(_ => PredictRandomIsotopicPeak(composition)).Distinct().OrderBy(p => p.Mass).ToList();
+            return BinPredictions(Enumerable.Range(0, NumberOfRandomPatternsToGenerate).AsParallel().Select(_ => PredictRandomIsotopicPeak(composition)).OrderBy(p => p.Mass).ToList());
+        }
+
+        private static IList<PredictedIsotope> BinPredictions(IList<PredictedIsotope> predictedIsotopes)
+        {
+            var numberOfPredictions = (double)predictedIsotopes.Count;
+            var binnedPredictions = new List<PredictedIsotope>();
+            
+            foreach (var bin in predictedIsotopes.GroupBy(i => i.Mass))
+            {
+                binnedPredictions.Add(new PredictedIsotope{Mass = bin.Key, Intensity = bin.Count() / numberOfPredictions});
+            }
+
+            return binnedPredictions;
         }
 
         private PredictedIsotope PredictRandomIsotopicPeak(Composition composition)
@@ -47,7 +60,7 @@ namespace MassCalculator.Data
             }
 
             var singlePeakMass = chosenIsotopes.Sum(a => a.Mass);
-            return new PredictedIsotope { Mass = singlePeakMass };
+            return new PredictedIsotope { Mass = singlePeakMass, Intensity = 1};
         }
     }
 }

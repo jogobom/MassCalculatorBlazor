@@ -43,9 +43,24 @@ namespace MassCalculator.Data
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Mass.Equals(other.Mass);
+            return AlmostEqualUlps(Mass, other.Mass, 2);
         }
 
+        private static bool AlmostEqualUlps(double a, double b, int maxUlpsDiff)
+        {
+            // Different signs means they do not match.
+            if (a < 0 != b < 0)
+            {
+                // Check for equality to make sure +0==-0
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                return a == b;
+            }
+
+            // Find the difference in ULPs.
+            var ulpsDiff = Math.Abs(BitConverter.DoubleToInt64Bits(a) - BitConverter.DoubleToInt64Bits(b));
+            return ulpsDiff <= maxUlpsDiff;
+        }
+        
         public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -70,5 +85,6 @@ namespace MassCalculator.Data
         }
 
         public double Mass { get; init; }
+        public double Intensity { get; init; }
     }
 }
