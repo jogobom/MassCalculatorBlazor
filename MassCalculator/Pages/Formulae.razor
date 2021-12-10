@@ -9,11 +9,11 @@
 
 @inject MassConverterService massConverterService
 
-<h4>Isotope pattern prediction</h4>
+<h3>Isotope pattern prediction</h3>
 
 <p>
     Enter chemical composition:
-    <input type="text" @bind="Formula" style="margin-bottom: 15px" />
+    <input aria-label="Enter chemical composition" type="text" @bind="Formula" style="margin-bottom: 15px" />
 </p>
 
 @if (composition == null)

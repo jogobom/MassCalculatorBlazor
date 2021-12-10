@@ -48,3 +48,58 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #448;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        color: #f1f1f1;
+        display: block;
+    }
+
+    .sidenav h2 {
+        padding: 6px 8px 6px 16px;
+        color: #a1f1a1;
+        display: block;
+    }
+
+        .sidenav a:hover {
+            background-color: #224;
+        }
+
+.main {
+    margin-left: 250px; /* Same as the width of the sidenav */
+    padding: 20px;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #448;
+    color: #f1f1f1;
+}

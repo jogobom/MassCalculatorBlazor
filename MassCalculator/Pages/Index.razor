@@ -4,11 +4,11 @@
 
 @inject MassConverterService massConverterService
 
-<h4>Calculate masses for charge states and isotopes</h4>
+<h3>Calculate masses for charge states and isotopes</h3>
 
 <p>
     Enter neutral monoisotopic mass:
-    <input type="text" @bind="CompoundMass" style="margin-bottom: 15px" />
+    <input aria-label="Enter neutral monoisotopic mass" type="text" @bind="CompoundMass" style="margin-bottom: 15px" />
 </p>
 
 @if (compound == null)
@@ -18,8 +18,8 @@
 else
 {
     <h4>Positive ionisation</h4>
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <tr>
                 <th>Charge state</th>
                 <th>Monoisotopic mass</th>
@@ -44,8 +44,8 @@ else
     </table>
 
     <h4>Negative ionisation</h4>
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <tr>
                 <th>Charge state</th>
                 <th>Monoisotopic mass</th>

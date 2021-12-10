@@ -2,7 +2,7 @@ using System;
 
 namespace MassCalculator.Data
 {
-    public class MassConverter
+    public static class MassConverter
     {
         private const double ProtonMassAmu = 1.007276467;
         private const double C13MinusC12MassAmu = 1.0033548378;
@@ -23,7 +23,7 @@ namespace MassCalculator.Data
             return charge switch
             {
                 < 0 => (massOverCharge + ProtonMassAmu) * Math.Abs(charge),
-                > 0 => (massOverCharge - ProtonMassAmu) / charge,
+                > 0 => (massOverCharge - ProtonMassAmu) * charge,
                 _ => 0.0
             } + C13MinusC12MassAmu * isotope;
         }

@@ -1,0 +1,54 @@
+﻿@page "/charged-to-neutral"
+
+@using MassCalculator.Data
+
+@inject MassConverterService massConverterService
+
+<h3>Calculate neutral mass from a charged m/z</h3>
+
+<p>
+    Enter m/z:
+    <input aria-label="Enter m/z" type="text" @bind="MassOverCharge" style="margin-bottom: 15px" />
+</p>
+
+<p>
+    Enter charge state:
+    <input aria-label="Enter charge state" type="text" @bind="ChargeState" style="margin-bottom: 15px" />
+</p>
+
+@if (compoundMass == null)
+{
+    <p><em>Enter m/z and charge state to calculate all the charge states/isotopes</em></p>
+}
+else
+{
+    <h4>Neutral mass</h4>
+
+    <p>@compoundMass</p>
+}
+
+@code {
+    private double? compoundMass;
+
+    private double massOverCharge;
+    private double MassOverCharge
+    {
+        get => massOverCharge;
+        set
+        {
+            massOverCharge = value;
+            compoundMass = massConverterService.CalculateNeutralMass(massOverCharge, chargeState).Result;
+        }
+    }
+
+    private int chargeState;
+    private int ChargeState
+    {
+        get => chargeState;
+        set
+        {
+            chargeState = value;
+            compoundMass = massConverterService.CalculateNeutralMass(massOverCharge, chargeState).Result;
+        }
+    }
+}

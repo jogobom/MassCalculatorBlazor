@@ -5,6 +5,11 @@ namespace MassCalculator.Data
 {
     public class MassConverterService
     {
+        public Task<double> CalculateNeutralMass(double massOverCharge, int charge)
+        {
+            return Task.FromResult(MassConverter.CalculateNeutralMass(massOverCharge, charge, 0));
+        }
+
         public Task<Compound> GenerateCompoundDetails(double neutralMonoisotopicMass)
         {
             var chargeStatesToBuild = Enumerable.Range(1, 10).ToList();

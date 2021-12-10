@@ -4,12 +4,12 @@
 
 @inject MassConverterService massConverterService
 
-<h4>Mass error</h4>
+<h3>Mass error</h3>
 <p style="margin-bottom: 15px" >
     If expected mass is 
-    <input type="text" @bind="ExpectedMass" style="margin-bottom: 15px" />
+    <input aria-label="expected mass" type="text" @bind="ExpectedMass" style="margin-bottom: 15px" />
     but observed mass is
-    <input type="text" @bind="ObservedMass" style="margin-bottom: 15px" />
+    <input aria-label="observed mass" type="text" @bind="ObservedMass" style="margin-bottom: 15px" />
     then the mass error is @MassErrorPpm ppm
 </p>
 
