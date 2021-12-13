@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.11.0" />
+    <PackageReference Include="Fluxor" Version="4.2.1" />
+    <PackageReference Include="Fluxor.Blazor.Web" Version="4.2.1" />
+    <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="4.2.1" />
+    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.13.0" />
     <PackageReference Include="OxyPlot.Blazor" Version="1.0.0" />
   </ItemGroup>
 

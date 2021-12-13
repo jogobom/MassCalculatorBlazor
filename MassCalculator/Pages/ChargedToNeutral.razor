@@ -1,22 +1,26 @@
 ﻿@page "/charged-to-neutral"
 
 @using MassCalculator.Data
+@using MassCalculator.Store.ChargedToNeutral
+@using Fluxor
 
-@inject MassConverterService massConverterService
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher dispatcher
+@inject IState<ChargedToNeutralState> chargedToNeutralState
 
 <h3>Calculate neutral mass from a charged m/z</h3>
 
 <p>
     Enter m/z:
-    <input aria-label="Enter m/z" type="text" @bind="MassOverCharge" style="margin-bottom: 15px" />
+    <input aria-label="Enter mass over charge" type="text" @oninput="SetMassOverCharge" value="@chargedToNeutralState.Value.MassOverCharge" style="margin-bottom: 15px" />
 </p>
 
 <p>
     Enter charge state:
-    <input aria-label="Enter charge state" type="text" @bind="ChargeState" style="margin-bottom: 15px" />
+    <input aria-label="Enter charge state" type="text" @oninput="SetCharge" value="@chargedToNeutralState.Value.Charge" style="margin-bottom: 15px" />
 </p>
 
-@if (compoundMass == null)
+@if (@chargedToNeutralState.Value.NeutralMass == null)
 {
     <p><em>Enter m/z and charge state to calculate all the charge states/isotopes</em></p>
 }
@@ -24,31 +28,23 @@ else
 {
     <h4>Neutral mass</h4>
 
-    <p>@compoundMass</p>
+    <p>@chargedToNeutralState.Value.NeutralMass</p>
 }
 
 @code {
-    private double? compoundMass;
-
-    private double massOverCharge;
-    private double MassOverCharge
+    private void SetMassOverCharge(ChangeEventArgs obj)
     {
-        get => massOverCharge;
-        set
+        if (obj.Value != null && double.TryParse((string)obj.Value, out var value))
         {
-            massOverCharge = value;
-            compoundMass = massConverterService.CalculateNeutralMass(massOverCharge, chargeState).Result;
+            dispatcher.Dispatch(new SetMassOverChargeAction(value));
         }
     }
 
-    private int chargeState;
-    private int ChargeState
+    private void SetCharge(ChangeEventArgs obj)
     {
-        get => chargeState;
-        set
+        if (obj.Value != null && int.TryParse((string)obj.Value, out var value))
         {
-            chargeState = value;
-            compoundMass = massConverterService.CalculateNeutralMass(massOverCharge, chargeState).Result;
+            dispatcher.Dispatch(new SetChargeAction(value));
         }
     }
 }

@@ -1,17 +1,19 @@
 ﻿@page "/"
+@using Fluxor
+@using MassCalculator.Store.Index
 
-@using MassCalculator.Data
-
-@inject MassConverterService massConverterService
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher dispatcher
+@inject IState<NeutralToChargedState> neutralToChargedState
 
 <h3>Calculate masses for charge states and isotopes</h3>
 
 <p>
     Enter neutral monoisotopic mass:
-    <input aria-label="Enter neutral monoisotopic mass" type="text" @bind="CompoundMass" style="margin-bottom: 15px" />
+    <input aria-label="Enter neutral monoisotopic mass" type="text" @oninput="SetMass" value="@neutralToChargedState.Value.Compound?.NeutralMonoisotopicMass" style="margin-bottom: 15px" />
 </p>
 
-@if (compound == null)
+@if (neutralToChargedState.Value.Compound == null)
 {
     <p><em>Enter a mass to calculate all the charge states/isotopes</em></p>
 }
@@ -23,14 +25,14 @@ else
             <tr>
                 <th>Charge state</th>
                 <th>Monoisotopic mass</th>
-                @for (var n = 1; n < compound.IsotopeCount; n++)
+                @for (var n = 1; n < neutralToChargedState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (var chargeState in compound.ChargeStates)
+            @foreach (var chargeState in neutralToChargedState.Value.Compound.ChargeStates)
             {
                 <tr>
                     <td>@chargeState.Charge</td>
@@ -49,14 +51,14 @@ else
             <tr>
                 <th>Charge state</th>
                 <th>Monoisotopic mass</th>
-                @for (var n = 1; n < compound.IsotopeCount; n++)
+                @for (var n = 1; n < neutralToChargedState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (var chargeState in compound.NegativeChargeStates)
+            @foreach (var chargeState in neutralToChargedState.Value.Compound.NegativeChargeStates)
             {
                 <tr>
                     <td>@chargeState.Charge</td>
@@ -71,16 +73,11 @@ else
 }
 
 @code {
-    private Compound? compound;
-
-    private double compoundMass;
-    private double CompoundMass
+    private void SetMass(ChangeEventArgs obj)
     {
-        get => compoundMass;
-        set
+        if (obj.Value != null && double.TryParse((string)obj.Value, out var value))
         {
-            compoundMass = value;
-            compound = massConverterService.GenerateCompoundDetails(compoundMass).Result;
+            dispatcher.Dispatch(new SetNeutralMassAction(value));
         }
     }
 }

@@ -1,3 +1,4 @@
+using Fluxor;
 using MassCalculator.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,10 @@ namespace MassCalculator
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<MassConverterService>();
+
+            // Add the following
+            var currentAssembly = typeof(Startup).Assembly;
+            services.AddFluxor(options => options.ScanAssemblies(currentAssembly));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
