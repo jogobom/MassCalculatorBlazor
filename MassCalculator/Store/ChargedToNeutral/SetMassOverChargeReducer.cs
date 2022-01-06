@@ -1,6 +1,4 @@
-﻿// // Copyright © 2021 Waters Corporation. All Rights Reserved.
-
-using Fluxor;
+﻿using Fluxor;
 using MassCalculator.Data;
 
 namespace MassCalculator.Store.ChargedToNeutral
@@ -19,8 +17,9 @@ namespace MassCalculator.Store.ChargedToNeutral
             }
 
             var massOverCharge = action.MassOverCharge.Value;
-            var neutralMass = massConverterService.CalculateNeutralMass(massOverCharge, state.Charge).Result;
-            return new ChargedToNeutralState(massOverCharge, state.Charge, neutralMass);
+            var neutralMonoisotopicMass = massConverterService.CalculateNeutralMass(massOverCharge, state.Charge).Result;
+            var compound = massConverterService.GenerateCompoundDetails(neutralMonoisotopicMass).Result;
+            return new ChargedToNeutralState(massOverCharge, state.Charge, compound);
         }
     }
 }

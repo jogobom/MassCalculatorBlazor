@@ -1,6 +1,4 @@
-﻿// // Copyright © 2021 Waters Corporation. All Rights Reserved.
-
-using Fluxor;
+﻿using Fluxor;
 using MassCalculator.Data;
 
 namespace MassCalculator.Store.Index

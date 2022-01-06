@@ -20,15 +20,67 @@
     <input aria-label="Enter charge state" type="text" @oninput="SetCharge" value="@chargedToNeutralState.Value.Charge" style="margin-bottom: 15px" />
 </p>
 
-@if (@chargedToNeutralState.Value.NeutralMass == null)
+@if (@chargedToNeutralState.Value.Compound == null)
 {
-    <p><em>Enter m/z and charge state to calculate all the charge states/isotopes</em></p>
+    <p><em>Enter m/z and charge state to calculate the neutral mass and where all the other charge states and isotopes would be</em></p>
 }
 else
 {
     <h4>Neutral mass</h4>
 
-    <p>@chargedToNeutralState.Value.NeutralMass</p>
+    <p>@chargedToNeutralState.Value.Compound.NeutralMonoisotopicMass</p>
+
+    <h4>Positive ionisation</h4>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Charge state</th>
+                <th>Monoisotopic mass</th>
+                @for (var n = 1; n < chargedToNeutralState.Value.Compound.IsotopeCount; n++)
+                {
+                    <th>@($"Isotope {n}")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chargeState in chargedToNeutralState.Value.Compound.ChargeStates)
+            {
+                <tr>
+                    <td>@chargeState.Charge</td>
+                    @foreach (var isotope in chargeState.Isotopes)
+                    {
+                        <td>@isotope.MassOverCharge</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Negative ionisation</h4>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Charge state</th>
+                <th>Monoisotopic mass</th>
+                @for (var n = 1; n < chargedToNeutralState.Value.Compound.IsotopeCount; n++)
+                {
+                    <th>@($"Isotope {n}")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chargeState in chargedToNeutralState.Value.Compound.NegativeChargeStates)
+            {
+                <tr>
+                    <td>@chargeState.Charge</td>
+                    @foreach (var isotope in chargeState.Isotopes)
+                    {
+                        <td>@isotope.MassOverCharge</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 @code {

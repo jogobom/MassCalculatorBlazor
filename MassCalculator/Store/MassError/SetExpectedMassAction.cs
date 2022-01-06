@@ -1,6 +1,4 @@
-﻿// Copyright © 2021 Waters Corporation. All Rights Reserved.
-
-namespace MassCalculator.Store.MassError
+﻿namespace MassCalculator.Store.MassError
 {
     public class SetExpectedMassAction
     {

@@ -1,6 +1,4 @@
-﻿// Copyright © 2021 Waters Corporation. All Rights Reserved.
-
-namespace MassCalculator.Store.ChargedToNeutral
+﻿namespace MassCalculator.Store.ChargedToNeutral
 {
     public class SetChargeAction
     {
