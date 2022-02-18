@@ -7,7 +7,7 @@ namespace MassCalculator.Data
     public class IsotopePatternCalculator
     {
         private readonly ElementDatabase database;
-        private const int NumberOfRandomPatternsToGenerate = 1000;
+        private const int NumberOfRandomPatternsToGenerate = 10000;
 
         public IsotopePatternCalculator(ElementDatabase database)
         {
@@ -34,14 +34,17 @@ namespace MassCalculator.Data
             return BinPredictions(Enumerable.Range(0, NumberOfRandomPatternsToGenerate).AsParallel().Select(_ => PredictRandomIsotopicPeak(composition)).OrderBy(p => p.Mass).ToList());
         }
 
-        private static IList<PredictedIsotope> BinPredictions(IList<PredictedIsotope> predictedIsotopes)
+        private static IList<PredictedIsotope> BinPredictions(IReadOnlyCollection<PredictedIsotope> predictedIsotopes)
         {
             var numberOfPredictions = (double)predictedIsotopes.Count;
             var binnedPredictions = new List<PredictedIsotope>();
             
-            foreach (var bin in predictedIsotopes.GroupBy(i => i.Mass))
+            // Bin masses into groups that match up to 4 decimal places
+            const double decimalPlaceScale = 1E4;
+
+            foreach (var bin in predictedIsotopes.GroupBy(i => (int)(i.Mass * decimalPlaceScale)))
             {
-                binnedPredictions.Add(new PredictedIsotope{Mass = bin.Key, Intensity = bin.Count() / numberOfPredictions});
+                binnedPredictions.Add(new PredictedIsotope{Mass = bin.Key / decimalPlaceScale, Intensity = bin.Count() / numberOfPredictions});
             }
 
             return binnedPredictions;
