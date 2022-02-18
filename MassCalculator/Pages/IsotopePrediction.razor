@@ -1,0 +1,64 @@
+﻿@page "/IsotopePrediction"
+
+@using MassCalculator.Data
+@using OxyPlot
+@using OxyPlot.Axes
+@using OxyPlot.Blazor
+@using OxyPlot.Series
+@using Fluxor
+@using MassCalculator.Store.IsotopePrediction
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher dispatcher
+@inject IState<IsotopePredictionState> isotopePredictionState
+
+@inject MassConverterService massConverterService
+
+<h3>Isotope pattern prediction</h3>
+
+<p>
+    Enter chemical composition:
+    <input aria-label="Enter chemical composition" type="text" @oninput="SetFormula" value="@isotopePredictionState.Value.Formula" style="margin-bottom: 15px" />
+</p>
+
+@if (isotopePredictionState.Value.Composition == null)
+{
+<p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
+}
+else if (!isotopePredictionState.Value.Composition.Ingredients.Any())
+{
+<p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
+    // Parse the string and look for any letters that don't match the chemical symbols we have in our database
+}
+else
+{
+<h4>@($"Predicted pattern for {isotopePredictionState.Value.Composition}")</h4>
+<BlazorPlotView Width="800px" Height="500px" Model="isotopePredictionState.Value.PlotViewModel" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mass</th>
+            <th>Estimated Proportion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var isotope in isotopePredictionState.Value.PredictedIsotopes)
+        {
+        <tr>
+            <td>@isotope.X</td>
+            <td>@isotope.Y</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code {
+    private void SetFormula(ChangeEventArgs obj)
+    {
+        if (obj.Value != null)
+        {
+            dispatcher.Dispatch(new SetFormulaAction((string)obj.Value));
+        }
+    }
+}
