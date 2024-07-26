@@ -6,12 +6,12 @@ namespace MassCalculator.Data
 {
     public class IsotopePatternCalculator
     {
-        private readonly ElementDatabase database;
+        private readonly ElementDatabase _database;
         private const int NumberOfRandomPatternsToGenerate = 10000;
 
         public IsotopePatternCalculator(ElementDatabase database)
         {
-            this.database = database;
+            this._database = database;
         }
 
         public IList<PredictedIsotope> PredictIsotopesFromComposition(Composition composition)
@@ -58,7 +58,7 @@ namespace MassCalculator.Data
                 // Take random draws from the set of possible isotopes for this element, one for each atom of this element in the compound
                 for (var a = 0; a < ingredient.Quantity; a++)
                 {
-                    chosenIsotopes.Add(database.DrawRandomIsotope(ingredient.ElementSymbol));
+                    chosenIsotopes.Add(_database.DrawRandomIsotope(ingredient.ElementSymbol));
                 }
             }
 

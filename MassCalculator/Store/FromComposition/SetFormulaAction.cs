@@ -1,4 +1,4 @@
-﻿namespace MassCalculator.Store.IsotopePrediction;
+﻿namespace MassCalculator.Store.FromComposition;
 
 public class SetFormulaAction
 {

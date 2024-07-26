@@ -1,6 +1,4 @@
-﻿// Copyright © 2022 Waters Corporation. All Rights Reserved.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MassCalculator.Data;
 using OxyPlot;
 using OxyPlot.Axes;

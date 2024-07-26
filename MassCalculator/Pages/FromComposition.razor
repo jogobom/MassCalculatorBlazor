@@ -1,0 +1,75 @@
+﻿@page "/FromComposition"
+@using Fluxor
+@using MassCalculator.Store.FromComposition
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<FromCompositionState> FromCompositionState
+
+<h3>Calculate masses from composition</h3>
+
+<p>
+    Enter chemical composition:
+    <input aria-label="Enter chemical composition" type="text" @oninput="SetFormula" value="@FromCompositionState.Value.Formula" style="margin-bottom: 15px" />
+</p>
+
+@if (FromCompositionState.Value.Compound is null)
+{
+<p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
+}
+else
+{
+    <h4>Neutral monoisotopic mass = @(FromCompositionState.Value.Compound.NeutralMass.Monoisotopic)</h4>
+    <h4>Neutral average mass = @(FromCompositionState.Value.Compound.NeutralMass.Average)</h4>
+    <h4>Positive ionisation</h4>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Charge state</th>
+            <th>Monoisotopic mass</th>
+            <th>Average mass</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var chargeState in FromCompositionState.Value.Compound.ChargeStates.Where(c => c.MassOverChargeRatio is not null))
+        {
+            <tr>
+                <td>@chargeState.Charge</td>
+                <td>@chargeState.MassOverChargeRatio!.Monoisotopic</td>
+                <td>@chargeState.MassOverChargeRatio.Average</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <h4>Negative ionisation</h4>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Charge state</th>
+            <th>Monoisotopic mass</th>
+            <th>Average mass</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var chargeState in FromCompositionState.Value.Compound.NegativeChargeStates)
+        {
+        <tr>
+            <td>@chargeState.Charge</td>
+            <td>@chargeState.MassOverChargeRatio!.Monoisotopic</td>
+            <td>@chargeState.MassOverChargeRatio.Average</td>
+        </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private void SetFormula(ChangeEventArgs obj)
+    {
+        if (obj.Value != null)
+        {
+            Dispatcher.Dispatch(new SetFormulaAction((string)obj.Value));
+        }
+    }
+}

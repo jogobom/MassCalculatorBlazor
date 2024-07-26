@@ -8,16 +8,16 @@ namespace MassCalculator.Data
 {
     public class ElementDatabase
     {
-        private readonly Dictionary<string,Element> knownElements = new();
-        private readonly Random random;
+        private readonly Dictionary<string,Element> _knownElements = new();
+        private readonly Random _random;
 
         public ElementDatabase(IEnumerable<Element> elements)
         {
-            random = new Random();
+            _random = new Random();
 
             foreach (var element in elements)
             {
-                knownElements[element.Symbol] = element;
+                _knownElements[element.Symbol] = element;
             }
         }
 
@@ -30,20 +30,27 @@ namespace MassCalculator.Data
 
         public double GetAverageMass(string symbol)
         {
-            return knownElements.ContainsKey(symbol)
-                ? knownElements[symbol].Isotopes.Sum(i => i.Proportion * i.Mass)
+            return _knownElements.ContainsKey(symbol)
+                ? _knownElements[symbol].Isotopes.Sum(i => i.Proportion * i.Mass)
+                : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
+        }
+        
+        public double GetMonoisotopicMass(string symbol)
+        {
+            return _knownElements.ContainsKey(symbol)
+                ? _knownElements[symbol].Isotopes.OrderBy(i => i.Nucleons).First().Mass
                 : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
         }
 
         public ElementIsotope DrawRandomIsotope(string symbol)
         {
-            if (!knownElements.ContainsKey(symbol))
+            if (!_knownElements.ContainsKey(symbol))
             {
                 throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
             }
 
-            var element = knownElements[symbol];
-            var randomPercentage = random.NextDouble();
+            var element = _knownElements[symbol];
+            var randomPercentage = _random.NextDouble();
             var totalProportionSoFar = 0.0;
 
             foreach (var isotope in element.Isotopes)

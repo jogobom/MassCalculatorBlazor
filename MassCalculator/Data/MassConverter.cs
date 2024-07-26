@@ -17,6 +17,16 @@ namespace MassCalculator.Data
                 _ => isotopeNeutralMass
             };
         }
+        
+        public static Mass CalculateMassOverCharge(Mass neutralMass, int charge)
+        {
+            return charge switch
+            {
+                < 0 => new Mass{ Monoisotopic = neutralMass.Monoisotopic / Math.Abs(charge) - ProtonMassAmu, Average = neutralMass.Average / Math.Abs(charge) - ProtonMassAmu},
+                > 0 => new Mass{ Monoisotopic = neutralMass.Monoisotopic / charge + ProtonMassAmu, Average = neutralMass.Average / charge + ProtonMassAmu},
+                _ => neutralMass
+            };
+        }
 
         public static double CalculateNeutralMass(double massOverCharge, int charge, double isotope)
         {

@@ -5,9 +5,9 @@ namespace MassCalculator.Store.Index;
 
 public class SetNeutralMassReducer : Reducer<NeutralToChargedState, SetNeutralMassAction>
 {
-    private readonly MassConverterService massConverterService;
+    private readonly MassConverterService _massConverterService;
 
-    public SetNeutralMassReducer(MassConverterService massConverterService) => this.massConverterService = massConverterService;
+    public SetNeutralMassReducer(MassConverterService massConverterService) => this._massConverterService = massConverterService;
 
     public override NeutralToChargedState Reduce(NeutralToChargedState state, SetNeutralMassAction action)
     {
@@ -16,7 +16,7 @@ public class SetNeutralMassReducer : Reducer<NeutralToChargedState, SetNeutralMa
             return state;
         }
 
-        var compound = massConverterService.GenerateCompoundDetails(action.CompoundMass.Value).Result;
+        var compound = _massConverterService.GenerateCompoundDetails(action.CompoundMass.Value).Result;
         return new NeutralToChargedState(compound);
     }
 }

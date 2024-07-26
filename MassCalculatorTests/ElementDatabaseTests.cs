@@ -42,5 +42,16 @@ namespace MassCalculatorTests
 
             database.GetAverageMass("X").Should().Be(7.5);
         }
+        
+        [Fact]
+        public void MonoisotopicMassOfElementWithTwoIsotopes_ShouldBe_MassOfTheFirstOne()
+        {
+            var database = new ElementDatabase(new []
+            {
+                ElementBuilder.MakeElementWithIsotopes("X", 5, 10)
+            });
+
+            database.GetMonoisotopicMass("X").Should().Be(5);
+        }
     }
 }

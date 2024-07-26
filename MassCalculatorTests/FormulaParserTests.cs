@@ -18,7 +18,7 @@ namespace MassCalculatorTests
         }
 
         [Fact]
-        public void ShouldParseCH()
+        public void ShouldParseCh()
         {
             FormulaParser.Parse("CH").Should().BeEquivalentTo(new[]
             {

@@ -1,26 +1,25 @@
-﻿@page "/charged-to-neutral"
+﻿@page "/ChargedToNeutral"
 
-@using MassCalculator.Data
 @using MassCalculator.Store.ChargedToNeutral
 @using Fluxor
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@inject IDispatcher dispatcher
-@inject IState<ChargedToNeutralState> chargedToNeutralState
+@inject IDispatcher Dispatcher
+@inject IState<ChargedToNeutralState> ChargedToNeutralState
 
 <h3>Calculate neutral mass from a charged m/z</h3>
 
 <p>
     Enter m/z:
-    <input aria-label="Enter mass over charge" type="text" @oninput="SetMassOverCharge" value="@chargedToNeutralState.Value.MassOverCharge" style="margin-bottom: 15px" />
+    <input aria-label="Enter mass over charge" type="text" @oninput="SetMassOverCharge" value="@ChargedToNeutralState.Value.MassOverCharge" style="margin-bottom: 15px" />
 </p>
 
 <p>
     Enter charge state:
-    <input aria-label="Enter charge state" type="text" @oninput="SetCharge" value="@chargedToNeutralState.Value.Charge" style="margin-bottom: 15px" />
+    <input aria-label="Enter charge state" type="text" @oninput="SetCharge" value="@ChargedToNeutralState.Value.Charge" style="margin-bottom: 15px" />
 </p>
 
-@if (@chargedToNeutralState.Value.Compound == null)
+@if (ChargedToNeutralState.Value.Compound == null)
 {
     <p><em>Enter m/z and charge state to calculate the neutral mass and where all the other charge states and isotopes would be</em></p>
 }
@@ -28,7 +27,7 @@ else
 {
     <h4>Neutral mass</h4>
 
-    <p>@chargedToNeutralState.Value.Compound.NeutralMonoisotopicMass</p>
+    <p>@ChargedToNeutralState.Value.Compound.NeutralMass</p>
 
     <h4>Positive ionisation</h4>
     <table class="table table-striped">
@@ -36,14 +35,14 @@ else
             <tr>
                 <th>Charge state</th>
                 <th>Monoisotopic mass</th>
-                @for (var n = 1; n < chargedToNeutralState.Value.Compound.IsotopeCount; n++)
+                @for (var n = 1; n < ChargedToNeutralState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (var chargeState in chargedToNeutralState.Value.Compound.ChargeStates)
+            @foreach (var chargeState in ChargedToNeutralState.Value.Compound.ChargeStates)
             {
                 <tr>
                     <td>@chargeState.Charge</td>
@@ -62,14 +61,14 @@ else
             <tr>
                 <th>Charge state</th>
                 <th>Monoisotopic mass</th>
-                @for (var n = 1; n < chargedToNeutralState.Value.Compound.IsotopeCount; n++)
+                @for (var n = 1; n < ChargedToNeutralState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (var chargeState in chargedToNeutralState.Value.Compound.NegativeChargeStates)
+            @foreach (var chargeState in ChargedToNeutralState.Value.Compound.NegativeChargeStates)
             {
                 <tr>
                     <td>@chargeState.Charge</td>
@@ -88,7 +87,7 @@ else
     {
         if (obj.Value != null && double.TryParse((string)obj.Value, out var value))
         {
-            dispatcher.Dispatch(new SetMassOverChargeAction(value));
+            Dispatcher.Dispatch(new SetMassOverChargeAction(value));
         }
     }
 
@@ -96,7 +95,7 @@ else
     {
         if (obj.Value != null && int.TryParse((string)obj.Value, out var value))
         {
-            dispatcher.Dispatch(new SetChargeAction(value));
+            Dispatcher.Dispatch(new SetChargeAction(value));
         }
     }
 }

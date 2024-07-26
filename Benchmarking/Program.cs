@@ -9,26 +9,26 @@ namespace Benchmarking
 {
     public class IsotopeDistributionBenchmarks
     {
-        private readonly IsotopePatternCalculator calculator;
+        private readonly IsotopePatternCalculator _calculator;
 
         public IsotopeDistributionBenchmarks()
         {
             var database = ElementDatabase.LoadFromFile("Data\\ElementDatabase.json");
-            calculator = new IsotopePatternCalculator(database);
+            _calculator = new IsotopePatternCalculator(database);
         }
 
         [Benchmark]
         public IList<PredictedIsotope> CalculateFromFormula_InSeries()
         {
             var composition = Composition.FromFormula("C12H24O8");
-            return calculator.PredictIsotopesFromComposition(composition);
+            return _calculator.PredictIsotopesFromComposition(composition);
         }
 
         [Benchmark]
         public IList<PredictedIsotope> CalculateFromFormula_InParallel()
         {
             var composition = Composition.FromFormula("C12H24O8");
-            return calculator.PredictIsotopesFromCompositionAsParallel(composition);
+            return _calculator.PredictIsotopesFromCompositionAsParallel(composition);
         }
     }
 

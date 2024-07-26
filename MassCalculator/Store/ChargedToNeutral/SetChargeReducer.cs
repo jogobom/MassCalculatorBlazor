@@ -3,12 +3,9 @@ using MassCalculator.Data;
 
 namespace MassCalculator.Store.ChargedToNeutral
 {
-    public class SetChargeReducer : Reducer<ChargedToNeutralState, SetChargeAction>
+    public class SetChargeReducer(MassConverterService massConverterService)
+        : Reducer<ChargedToNeutralState, SetChargeAction>
     {
-        private readonly MassConverterService massConverterService;
-
-        public SetChargeReducer(MassConverterService massConverterService) => this.massConverterService = massConverterService;
-
         public override ChargedToNeutralState Reduce(ChargedToNeutralState state, SetChargeAction action)
         {
             if (!action.Charge.HasValue)
@@ -17,8 +14,8 @@ namespace MassCalculator.Store.ChargedToNeutral
             }
 
             var charge = action.Charge.Value;
-            var neutralMonoisotopicMass = massConverterService.CalculateNeutralMass(state.MassOverCharge, charge).Result;
-            var compound = massConverterService.GenerateCompoundDetails(neutralMonoisotopicMass).Result;
+            var neutralMass = MassConverterService.CalculateNeutralMass(state.MassOverCharge, charge).Result;
+            var compound = massConverterService.GenerateCompoundDetails(neutralMass).Result;
             return new ChargedToNeutralState(state.MassOverCharge, charge, compound);
         }
     }

@@ -1,39 +1,32 @@
 ﻿@page "/IsotopePrediction"
-
-@using MassCalculator.Data
-@using OxyPlot
-@using OxyPlot.Axes
 @using OxyPlot.Blazor
-@using OxyPlot.Series
 @using Fluxor
 @using MassCalculator.Store.IsotopePrediction
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@inject IDispatcher dispatcher
-@inject IState<IsotopePredictionState> isotopePredictionState
-
-@inject MassConverterService massConverterService
+@inject IDispatcher Dispatcher
+@inject IState<IsotopePredictionState> IsotopePredictionState
 
 <h3>Isotope pattern prediction</h3>
 
 <p>
     Enter chemical composition:
-    <input aria-label="Enter chemical composition" type="text" @oninput="SetFormula" value="@isotopePredictionState.Value.Formula" style="margin-bottom: 15px" />
+    <input aria-label="Enter chemical composition" type="text" @oninput="SetFormula" value="@IsotopePredictionState.Value.Formula" style="margin-bottom: 15px" />
 </p>
 
-@if (isotopePredictionState.Value.Composition == null)
+@if (IsotopePredictionState.Value.Composition == null)
 {
 <p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
 }
-else if (!isotopePredictionState.Value.Composition.Ingredients.Any())
+else if (!IsotopePredictionState.Value.Composition.Ingredients.Any())
 {
 <p><em>Enter a formula using correctly-spelled chemical symbols with the correct upper and lower cases letters (e.g. C, H, O, Cl, Br, Mn, etc.) to calculate the predicted isotope pattern</em></p>
     // Parse the string and look for any letters that don't match the chemical symbols we have in our database
 }
 else
 {
-<h4>@($"Predicted pattern for {isotopePredictionState.Value.Composition}")</h4>
-<BlazorPlotView Width="800px" Height="500px" Model="isotopePredictionState.Value.PlotViewModel" />
+<h4>@($"Predicted pattern for {IsotopePredictionState.Value.Composition}")</h4>
+<BlazorPlotView Width="800px" Height="500px" Model="IsotopePredictionState.Value.PlotViewModel" />
 <table class="table">
     <thead>
         <tr>
@@ -42,7 +35,7 @@ else
         </tr>
     </thead>
     <tbody>
-        @foreach (var isotope in isotopePredictionState.Value.PredictedIsotopes)
+        @foreach (var isotope in IsotopePredictionState.Value.PredictedIsotopes)
         {
         <tr>
             <td>@isotope.X</td>
@@ -58,7 +51,7 @@ else
     {
         if (obj.Value != null)
         {
-            dispatcher.Dispatch(new SetFormulaAction((string)obj.Value));
+            Dispatcher.Dispatch(new SetFormulaAction((string)obj.Value));
         }
     }
 }

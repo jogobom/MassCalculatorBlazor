@@ -4,16 +4,16 @@
 @using MassCalculator.Store.MassError
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@inject IDispatcher dispatcher
-@inject IState<MassErrorState> massErrorState
+@inject IDispatcher Dispatcher
+@inject IState<MassErrorState> MassErrorState
 
 <h3>Mass error</h3>
 <p style="margin-bottom: 15px">
     If expected mass is
-    <input aria-label="expected mass" type="text" @oninput="SetExpectedMass" value="@massErrorState.Value.ExpectedMass" style="margin-bottom: 15px" />
+    <input aria-label="expected mass" type="text" @oninput="SetExpectedMass" value="@MassErrorState.Value.ExpectedMass" style="margin-bottom: 15px" />
     but observed mass is
-    <input aria-label="observed mass" type="text" @oninput="SetObservedMass" value="@massErrorState.Value.ObservedMass" style="margin-bottom: 15px" />
-    then the mass error is @massErrorState.Value.MassErrorPpm ppm
+    <input aria-label="observed mass" type="text" @oninput="SetObservedMass" value="@MassErrorState.Value.ObservedMass" style="margin-bottom: 15px" />
+    then the mass error is @MassErrorState.Value.MassErrorPpm ppm
 </p>
 
 @code {
@@ -21,7 +21,7 @@
     {
         if (obj.Value != null && double.TryParse((string)obj.Value, out var value))
         {
-            dispatcher.Dispatch(new SetExpectedMassAction(value));
+            Dispatcher.Dispatch(new SetExpectedMassAction(value));
         }
     }
 
@@ -29,7 +29,7 @@
     {
         if (obj.Value != null && double.TryParse((string)obj.Value, out var value))
         {
-            dispatcher.Dispatch(new SetObservedMassAction(value));
+            Dispatcher.Dispatch(new SetObservedMassAction(value));
         }
     }
 

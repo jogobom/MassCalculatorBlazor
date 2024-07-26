@@ -1,5 +1,4 @@
-﻿// Copyright © 2022 Waters Corporation. All Rights Reserved.
-
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fluxor;
@@ -10,7 +9,7 @@ namespace MassCalculator.Store.IsotopePrediction;
 
 public class SetFormulaReducer : Reducer<IsotopePredictionState, SetFormulaAction>
 {
-    private readonly IsotopePatternCalculator isotopePatternCalculator = new(ElementDatabase.LoadFromFile("Data/ElementDatabase.json"));
+    private readonly IsotopePatternCalculator _isotopePatternCalculator = new(ElementDatabase.LoadFromFile("Data/ElementDatabase.json"));
 
     public override IsotopePredictionState Reduce(IsotopePredictionState state, SetFormulaAction action)
     {
@@ -19,12 +18,19 @@ public class SetFormulaReducer : Reducer<IsotopePredictionState, SetFormulaActio
             return state;
         }
 
-        var composition = Composition.FromFormula(action.Formula);
+        try
+        {
+            var composition = Composition.FromFormula(action.Formula);
 
-        var predictedIsotopes = composition.Ingredients.Any()
-            ? isotopePatternCalculator.PredictIsotopesFromCompositionAsParallel(composition).Select(i => new DataPoint(i.Mass, i.Intensity))
-            : new List<DataPoint>();
+            var predictedIsotopes = composition.Ingredients.Any()
+                ? _isotopePatternCalculator.PredictIsotopesFromCompositionAsParallel(composition).Select(i => new DataPoint(i.Mass, i.Intensity))
+                : new List<DataPoint>();
 
-        return new IsotopePredictionState(action.Formula, composition, predictedIsotopes);
+            return new(action.Formula, composition, predictedIsotopes);
+        }
+        catch (Exception)
+        {
+            return new(action.Formula, null, new List<DataPoint>());
+        }
     }
 }

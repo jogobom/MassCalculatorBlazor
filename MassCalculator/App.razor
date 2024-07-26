@@ -1,8 +1,6 @@
-@inject Fluxor.IStore store
-
 <Fluxor.Blazor.Web.StoreInitializer/>
 
-<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+<Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>

@@ -5,42 +5,47 @@ namespace MassCalculator.Data
 {
     public class MassConverterService
     {
-        public Task<double> CalculateNeutralMass(double massOverCharge, int charge)
+        public static Task<double> CalculateNeutralMass(double massOverCharge, int charge)
         {
             return Task.FromResult(MassConverter.CalculateNeutralMass(massOverCharge, charge, 0));
         }
 
         public Task<Compound> GenerateCompoundDetails(double neutralMonoisotopicMass)
         {
+            return GenerateCompoundDetails(new Mass { Monoisotopic = neutralMonoisotopicMass });
+        }
+        public Task<Compound> GenerateCompoundDetails(Mass mass)
+        {
             var chargeStatesToBuild = Enumerable.Range(1, 10).ToList();
 
             return Task.FromResult(new Compound
             {
-                NeutralMonoisotopicMass = neutralMonoisotopicMass,
+                NeutralMass = mass,
                 ChargeStates = chargeStatesToBuild
-                    .Select(z => BuildTheoreticalChargeState(neutralMonoisotopicMass, z))
+                    .Select(z => BuildTheoreticalChargeState(mass, z))
                     .ToList(),
                 NegativeChargeStates = chargeStatesToBuild
-                    .Select(z => BuildTheoreticalChargeState(neutralMonoisotopicMass, -z))
+                    .Select(z => BuildTheoreticalChargeState(mass, -z))
                     .ToList()
             });
         }
 
-        private ChargeState BuildTheoreticalChargeState(double neutralMonoisotopicMass, int z)
+        private ChargeState BuildTheoreticalChargeState(Mass mass, int z)
         {
             var isotopesToBuild = Enumerable.Range(0, 10);
             return new ChargeState
             {
                 Charge = z,
-                Isotopes = isotopesToBuild.Select(a => BuildTheoreticalIsotope(neutralMonoisotopicMass, z, a)).ToList()
+                MassOverChargeRatio = MassConverter.CalculateMassOverCharge(mass, z),
+                Isotopes = isotopesToBuild.Select(a => BuildTheoreticalIsotope(mass, z, a)).ToList()
             };
         }
 
-        private PredictedIsotopeAtCharge BuildTheoreticalIsotope(double neutralMonoisotopicMass, int z, int a)
+        private static PredictedIsotopeAtCharge BuildTheoreticalIsotope(Mass mass, int z, int a)
         {
             return new PredictedIsotopeAtCharge
             {
-                MassOverCharge = MassConverter.CalculateMassOverCharge(neutralMonoisotopicMass, z, a),
+                MassOverCharge = MassConverter.CalculateMassOverCharge(mass.Monoisotopic, z, a),
             };
         }
     }
