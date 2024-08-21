@@ -10,7 +10,7 @@
 
 <p>
     Enter neutral monoisotopic mass:
-    <input aria-label="Enter neutral monoisotopic mass" type="text" @oninput="SetMass" value="@NeutralToChargedState.Value.Compound?.NeutralMass" style="margin-bottom: 15px" />
+    <input aria-label="Enter neutral monoisotopic mass" type="text" @oninput="SetMass" value="@NeutralToChargedState.Value.Compound?.NeutralMass.Monoisotopic" style="margin-bottom: 15px" />
 </p>
 
 @if (NeutralToChargedState.Value.Compound == null)
