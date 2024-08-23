@@ -16,7 +16,7 @@ namespace MassCalculator.Data
         }
         public Task<Compound> GenerateCompoundDetails(Mass mass)
         {
-            var chargeStatesToBuild = Enumerable.Range(1, 10).ToList();
+            var chargeStatesToBuild = Enumerable.Range(1, 20).ToList();
 
             return Task.FromResult(new Compound
             {
