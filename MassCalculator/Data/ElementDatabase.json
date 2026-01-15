@@ -337,5 +337,22 @@
                 "Proportion": 0.4931
             }
         ]
+    },
+    {
+        "Symbol": "B",
+        "Name": "Boron",
+        "Isotopes":
+        [
+            {
+                "Nucleons": 10,
+                "Mass": 10.0129369,
+                "Proportion": 0.199
+            },
+            {
+                "Nucleons": 11,
+                "Mass": 11.0093054,
+                "Proportion": 0.801
+            }
+        ]
     }
 ]
