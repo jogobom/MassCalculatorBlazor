@@ -10,9 +10,9 @@ namespace MassCalculator.Data
             return Task.FromResult(MassConverter.CalculateNeutralMass(massOverCharge, charge, 0));
         }
 
-        public Task<Compound> GenerateCompoundDetails(double neutralMonoisotopicMass)
+        public Task<Compound> GenerateCompoundDetails(double neutralMinimumIsotopeMass)
         {
-            return GenerateCompoundDetails(new Mass { Monoisotopic = neutralMonoisotopicMass });
+            return GenerateCompoundDetails(new Mass { MinimumIsotopeMass = neutralMinimumIsotopeMass });
         }
         public Task<Compound> GenerateCompoundDetails(Mass mass)
         {
@@ -45,7 +45,7 @@ namespace MassCalculator.Data
         {
             return new PredictedIsotopeAtCharge
             {
-                MassOverCharge = MassConverter.CalculateMassOverCharge(mass.Monoisotopic, z, a),
+                MassOverCharge = MassConverter.CalculateMassOverCharge(mass.MinimumIsotopeMass, z, a),
             };
         }
     }

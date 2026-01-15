@@ -7,9 +7,9 @@ namespace MassCalculator.Data
         private const double ProtonMassAmu = 1.007276467;
         private const double C13MinusC12MassAmu = 1.0033548378;
 
-        public static double CalculateMassOverCharge(double neutralMass, int charge, double isotope)
+        public static double CalculateMassOverCharge(double minimumIsotopeNeutralMass, int charge, double isotope)
         {
-            var isotopeNeutralMass = neutralMass + C13MinusC12MassAmu * isotope;
+            var isotopeNeutralMass = minimumIsotopeNeutralMass + C13MinusC12MassAmu * isotope;
             return charge switch
             {
                 < 0 => isotopeNeutralMass / Math.Abs(charge) - ProtonMassAmu,
@@ -22,8 +22,18 @@ namespace MassCalculator.Data
         {
             return charge switch
             {
-                < 0 => new Mass{ Monoisotopic = neutralMass.Monoisotopic / Math.Abs(charge) - ProtonMassAmu, Average = neutralMass.Average / Math.Abs(charge) - ProtonMassAmu},
-                > 0 => new Mass{ Monoisotopic = neutralMass.Monoisotopic / charge + ProtonMassAmu, Average = neutralMass.Average / charge + ProtonMassAmu},
+                < 0 => new Mass
+                {
+                    Monoisotopic = neutralMass.Monoisotopic / Math.Abs(charge) - ProtonMassAmu,
+                    MinimumIsotopeMass = neutralMass.MinimumIsotopeMass / Math.Abs(charge) - ProtonMassAmu,
+                    Average = neutralMass.Average / Math.Abs(charge) - ProtonMassAmu
+                },
+                > 0 => new Mass
+                {
+                    Monoisotopic = neutralMass.Monoisotopic / charge + ProtonMassAmu,
+                    MinimumIsotopeMass = neutralMass.MinimumIsotopeMass / charge + ProtonMassAmu,
+                    Average = neutralMass.Average / charge + ProtonMassAmu
+                },
                 _ => neutralMass
             };
         }

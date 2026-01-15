@@ -20,15 +20,16 @@ public class SetFormulaReducer(MassConverterService massConverterService)
         try
         {
             var composition = Composition.FromFormula(action.Formula);
+            var minimumIsotopeMass = composition.Ingredients.Sum(i => _elementDatabase.GetMinimumIsotopeMass(i.ElementSymbol) * i.Quantity);
             var monoisotopicNeutralMass = composition.Ingredients.Sum(i => _elementDatabase.GetMonoisotopicMass(i.ElementSymbol) * i.Quantity);
             var averageNeutralMass = composition.Ingredients.Sum(i => _elementDatabase.GetAverageMass(i.ElementSymbol) * i.Quantity);
-            var mass = new Mass { Monoisotopic = monoisotopicNeutralMass, Average = averageNeutralMass };
+            var mass = new Mass { Monoisotopic = monoisotopicNeutralMass, Average = averageNeutralMass, MinimumIsotopeMass = minimumIsotopeMass};
             var compound = massConverterService.GenerateCompoundDetails(mass).Result;
-            return new(action.Formula, compound, averageNeutralMass);
+            return new FromCompositionState(action.Formula, compound);
         }
         catch (Exception)
         {
-            return new(action.Formula, null, 0.0);
+            return new FromCompositionState(action.Formula, null);
         }
     }
 }

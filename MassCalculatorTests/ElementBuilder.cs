@@ -5,10 +5,9 @@ namespace MassCalculatorTests
 {
     public static class ElementBuilder
     {
-        public static Element MakeElementWithIsotopes(string symbol, params double[] masses)
+        public static Element MakeElementWithIsotopes(string symbol, params (double mass, double proportion)[] isotopes)
         {
-            var isotopeProportion = 1.0 / masses.Length;
-            return new Element(symbol, symbol, masses.Select(m => new ElementIsotope { Mass = m, Proportion = isotopeProportion }).ToList());
+            return new Element(symbol, symbol, isotopes.Select(i => new ElementIsotope { Mass = i.mass, Proportion = i.proportion }).ToList());
         }
     }
 }

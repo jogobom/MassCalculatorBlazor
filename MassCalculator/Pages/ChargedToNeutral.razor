@@ -25,17 +25,16 @@
 }
 else
 {
-    <h4>Neutral monoisotopic mass</h4>
+    <h4>Neutral mass</h4>
 
-    <p>@ChargedToNeutralState.Value.Compound.NeutralMass.Monoisotopic</p>
+    <p>@ChargedToNeutralState.Value.Compound.NeutralMass.MinimumIsotopeMass</p>
 
     <h4>Positive ionisation</h4>
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr>
                 <th>Charge state</th>
-                <th>Monoisotopic mass</th>
-                @for (var n = 1; n < ChargedToNeutralState.Value.Compound.IsotopeCount; n++)
+                @for (var n = 0; n < ChargedToNeutralState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }
@@ -60,8 +59,7 @@ else
         <thead class="thead-dark">
             <tr>
                 <th>Charge state</th>
-                <th>Monoisotopic mass</th>
-                @for (var n = 1; n < ChargedToNeutralState.Value.Compound.IsotopeCount; n++)
+                @for (var n = 0; n < ChargedToNeutralState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }

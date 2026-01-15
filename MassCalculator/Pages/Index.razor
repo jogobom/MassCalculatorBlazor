@@ -9,8 +9,8 @@
 <h3>Calculate masses for charge states and isotopes</h3>
 
 <p>
-    Enter neutral monoisotopic mass:
-    <input aria-label="Enter neutral monoisotopic mass" type="text" @oninput="SetMass" value="@NeutralToChargedState.Value.Compound?.NeutralMass.Monoisotopic" style="margin-bottom: 15px" />
+    Enter neutral mass:
+    <input aria-label="Enter neutral mass" type="text" @oninput="SetMass" value="@NeutralToChargedState.Value.Compound?.NeutralMass.MinimumIsotopeMass" style="margin-bottom: 15px" />
 </p>
 
 @if (NeutralToChargedState.Value.Compound == null)
@@ -24,8 +24,7 @@ else
         <thead class="thead-dark">
             <tr>
                 <th>Charge state</th>
-                <th>Monoisotopic mass</th>
-                @for (var n = 1; n < NeutralToChargedState.Value.Compound.IsotopeCount; n++)
+                @for (var n = 0; n < NeutralToChargedState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }
@@ -50,8 +49,7 @@ else
         <thead class="thead-dark">
             <tr>
                 <th>Charge state</th>
-                <th>Monoisotopic mass</th>
-                @for (var n = 1; n < NeutralToChargedState.Value.Compound.IsotopeCount; n++)
+                @for (var n = 0; n < NeutralToChargedState.Value.Compound.IsotopeCount; n++)
                 {
                     <th>@($"Isotope {n}")</th>
                 }

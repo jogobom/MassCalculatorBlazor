@@ -30,26 +30,25 @@ namespace MassCalculator.Data
 
         public double GetAverageMass(string symbol)
         {
-            return _knownElements.ContainsKey(symbol)
-                ? _knownElements[symbol].Isotopes.Sum(i => i.Proportion * i.Mass)
+            return _knownElements.TryGetValue(symbol, out var element)
+                ? element.Isotopes.Sum(i => i.Proportion * i.Mass)
                 : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
         }
         
         public double GetMonoisotopicMass(string symbol)
         {
-            return _knownElements.ContainsKey(symbol)
-                ? _knownElements[symbol].Isotopes.OrderBy(i => i.Nucleons).First().Mass
+            return _knownElements.TryGetValue(symbol, out var element)
+                ? element.Isotopes.OrderByDescending(i => i.Proportion).First().Mass
                 : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
         }
 
         public ElementIsotope DrawRandomIsotope(string symbol)
         {
-            if (!_knownElements.ContainsKey(symbol))
+            if (!_knownElements.TryGetValue(symbol, out var element))
             {
                 throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
             }
 
-            var element = _knownElements[symbol];
             var randomPercentage = _random.NextDouble();
             var totalProportionSoFar = 0.0;
 
@@ -61,6 +60,13 @@ namespace MassCalculator.Data
             }
 
             throw new ApplicationException($"Somehow managed to run out of isotopes before random percentage was met, check that the proportions for all elements sum to 1.0");
+        }
+
+        public double GetMinimumIsotopeMass(string symbol)
+        {
+            return _knownElements.TryGetValue(symbol, out var element)
+                ? element.Isotopes.OrderBy(i => i.Nucleons).First().Mass
+                : throw new ApplicationException($"No element with symbol \"{symbol}\" in database");
         }
     }
 }

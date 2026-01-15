@@ -19,6 +19,7 @@
 }
 else
 {
+    <h4>Neutral minimum isotope mass = @(FromCompositionState.Value.Compound.NeutralMass.MinimumIsotopeMass)</h4>
     <h4>Neutral monoisotopic mass = @(FromCompositionState.Value.Compound.NeutralMass.Monoisotopic)</h4>
     <h4>Neutral average mass = @(FromCompositionState.Value.Compound.NeutralMass.Average)</h4>
     <h4>Positive ionisation</h4>
@@ -26,6 +27,7 @@ else
         <thead class="thead-dark">
         <tr>
             <th>Charge state</th>
+            <th>Minimum isotope mass</th>
             <th>Monoisotopic mass</th>
             <th>Average mass</th>
         </tr>
@@ -35,6 +37,7 @@ else
         {
             <tr>
                 <td>@chargeState.Charge</td>
+                <td>@chargeState.MassOverChargeRatio!.MinimumIsotopeMass</td>
                 <td>@chargeState.MassOverChargeRatio!.Monoisotopic</td>
                 <td>@chargeState.MassOverChargeRatio.Average</td>
             </tr>
@@ -47,6 +50,7 @@ else
         <thead class="thead-dark">
         <tr>
             <th>Charge state</th>
+            <th>Minimum isotope mass</th>
             <th>Monoisotopic mass</th>
             <th>Average mass</th>
         </tr>
@@ -56,6 +60,7 @@ else
         {
         <tr>
             <td>@chargeState.Charge</td>
+            <td>@chargeState.MassOverChargeRatio!.MinimumIsotopeMass</td>
             <td>@chargeState.MassOverChargeRatio!.Monoisotopic</td>
             <td>@chargeState.MassOverChargeRatio.Average</td>
         </tr>
