@@ -281,14 +281,9 @@
                 "Proportion": 0.1845
             },
             {
-                "Nucleons": 70,
-                "Mass": 69.9253193,
-                "Proportion": 0.0061
-            },
-            {
-                "Nucleons": 48,
-                "Mass": 47.9525229,
-                "Proportion": 0.00187
+              "Nucleons": 70,
+              "Mass": 69.9253193,
+              "Proportion": 0.0061
             }
         ]
     },
